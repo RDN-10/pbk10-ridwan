@@ -1,0 +1,167 @@
+/* =============== [NEW FEATURES] =============== */
+
+/* 1. GLOW EFFECT ON CARDS */
+.dashboard-card {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .dashboard-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+      rgba(99, 102, 241, 0.1) 0%, 
+      transparent 70%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .dashboard-card:hover::after {
+    opacity: 1;
+  }
+  
+  /* 2. ANIMATED SIDEBAR TOGGLE */
+  .sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  /* 3. FLOATING ACTION BUTTON */
+  .fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .fab:hover {
+    transform: scale(1.1) rotate(90deg);
+  }
+  
+  /* 4. MODERN LOADING SKELETON */
+  @keyframes shimmer {
+    0% { background-position: -468px 0 }
+    100% { background-position: 468px 0 }
+  }
+  
+  .skeleton {
+    background: linear-gradient(to right, #f1f5f9 8%, #e2e8f0 18%, #f1f5f9 33%);
+    background-size: 800px 104px;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+  }
+  
+  /* 5. NEON TAB EFFECT */
+  .tab-container {
+    display: flex;
+    border-bottom: 1px solid var(--gray);
+  }
+  
+  .tab {
+    padding: 12px 24px;
+    position: relative;
+    cursor: pointer;
+    color: var(--text-secondary);
+  }
+  
+  .tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+  }
+  
+  .tab.active {
+    color: var(--primary);
+  }
+  
+  .tab.active::after {
+    width: 100%;
+  }
+  
+  /* =============== [ENHANCED EXISTING STYLES] =============== */
+  
+  /* Improved sidebar with subtle parallax */
+  .sidebar {
+    will-change: transform;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Smoother card transitions */
+  .dashboard-card {
+    will-change: transform, box-shadow;
+  }
+  
+  /* Better responsive behavior */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      transform: translateX(-100%);
+      z-index: 999;
+      width: 280px;
+      height: 100vh;
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar.active {
+      transform: translateX(0);
+    }
+    
+    .sidebar-toggle {
+      display: block;
+    }
+    
+    .main-content {
+      margin-left: 0;
+      padding: 20px;
+    }
+    
+    .dashboard {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Typography upgrades */
+  .card-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  /* =============== [USAGE EXAMPLES] =============== */
+  /* 
+    <button class="sidebar-toggle">☰</button>
+    <div class="fab">+</div>
+    <div class="skeleton" style="width:100%; height:200px;"></div>
+  */

@@ -76,10 +76,11 @@ export default {
       if (!namaPembeli) return
 
       const tanggal = new Date().toISOString().split("T")[0]
+      const API_URL = 'https://gamingstores.glitch.me/riwayat'
 
       try {
         for (let item of this.cart) {
-          await axios.post('/api/riwayat', {
+          await axios.post(`${API_URL}/riwayat`, {
             tanggal,
             pembeli: namaPembeli,
             nama: item.nama,
@@ -88,7 +89,7 @@ export default {
             total: item.harga * item.quantity
           })
 
-          await axios.patch(`/api/barang/${item.id}`, {
+          await axios.patch(`${API_URL}/barang/${item.id}`, {
             stok: item.stok - item.quantity
           })
         }

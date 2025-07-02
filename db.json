@@ -1,28 +1,28 @@
 {
   "barang": [
     {
-      "id": "1",
+      "id": 1,
       "nama": "Play Station 5",
       "kategori": "Konsol",
       "stok": 9,
       "harga": 8500000,
-      "foto": "https://s.yimg.com/..."
+      "foto": "https://s.yimg.com/uu/api/res/1.2/A...jpg"
     },
     {
-      "id": "2",
+      "id": 2,
       "nama": "Headset Gaming Razer",
       "kategori": "Aksesoris",
       "stok": 30,
       "harga": 1500000,
-      "foto": "https://tse2.mm.bing.net/..."
+      "foto": "https://tse2.mm.bing.net/th?id=OIP...jpg"
     },
     {
-      "id": "3",
+      "id": 3,
       "nama": "Keyboard Mechanical",
       "kategori": "Peripheral",
       "stok": 18,
       "harga": 1200000,
-      "foto": "https://cdn.shopify.com/..."
+      "foto": "https://cdn.shopify.com/s/files/...jpg"
     }
   ],
   "riwayat": []

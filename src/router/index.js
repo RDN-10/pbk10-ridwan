@@ -28,8 +28,8 @@ const routes = [
   },
   {
     path: '/laporan-stok',
-    name: 'Laporanstok',
-    component: Laporanstok
+    name: 'LaporanStok',
+    component: LaporanStok
   },
   {
     path: '/riwayat',

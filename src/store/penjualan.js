@@ -9,7 +9,8 @@ export const usePenjualanStore = defineStore('penjualan', {
   actions: {
     async fetchPenjualan() {
       try {
-        const res = await axios.get('https://my-json-server.typicode.com/RDN-10/pbk10-ridwan/penjualan')
+        // Pakai proxy route ke Netlify
+        const res = await axios.get('/api/riwayat')
         this.daftarPenjualan = res.data
       } catch (err) {
         console.error('Gagal fetch penjualan:', err.message)

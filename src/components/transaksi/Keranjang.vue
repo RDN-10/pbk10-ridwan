@@ -80,6 +80,21 @@ export default {
 
       try {
         for (let item of this.cart) {
+          // Mengambil data stok terbaru
+          const res = await axios.get(`${API_URL}/barang/${item.id}`)
+          const currentStock = res.data.stok
+
+          if (item.quantity > currentStock) {
+            alert(`Stok ${item.nama} tidak cukup!`)
+            return // Menghentikan proses checkout jika stok tidak cukup
+          }
+
+          // ********************************************************************
+          // Bagian ini adalah penyebab error 404. Endpoint POST /riwayat
+          // di server backend (Glitch) kemungkinan tidak ada atau salah.
+          // Frontend sudah benar dalam mencoba mengirim data,
+          // tapi backend tidak siap menerimanya.
+          // ********************************************************************
           await axios.post(`${API_URL}/riwayat`, {
             tanggal,
             pembeli: namaPembeli,
@@ -89,25 +104,29 @@ export default {
             total: item.harga * item.quantity
           })
 
+          // Mengurangi stok setelah transaksi berhasil dicatat
           await axios.patch(`${API_URL}/barang/${item.id}`, {
-            stok: item.stok - item.quantity
+            stok: currentStock - item.quantity
           })
         }
 
         alert("Checkout berhasil!")
+
+        // Mengosongkan keranjang dan menghapus dari localStorage
         localStorage.removeItem('cart')
         this.cart = []
+        // Mengarahkan pengguna ke halaman riwayat
         this.$router.push('/riwayat')
 
       } catch (err) {
-        console.error("Checkout gagal:", err.message)
-        alert("Checkout gagal, coba lagi.")
+        // Logging error yang lebih spesifik untuk debugging
+        console.error("Checkout gagal:", err.message, err.response ? err.response.data : '');
+        alert("Checkout gagal, coba lagi. Pastikan server backend berjalan dan endpoint '/riwayat' tersedia.");
       }
     }
   }
 }
 </script>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
 

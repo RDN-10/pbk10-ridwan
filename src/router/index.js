@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Import komponen halaman
-import Dashboard from './components/Dashboard.vue'
-import BarangList from './components/barang/BarangList.vue'
-import LaporanStok from './components/laporan/LaporanStok.vue' // diperbaiki di sini
-import RiwayatPembelian from './components/transaksi/RiwayatPembelian.vue'
-import Keranjang from './components/transaksi/Keranjang.vue'
-import PenggunaList from './components/pengguna/PenggunaList.vue'
-import Login from './components/Login.vue'
-import Logout from './components/Logout.vue'
-import Profil from './components/Profil.vue'
+import Dashboard from '@/components/Dashboard.vue'
+import BarangList from '@/components/barang/BarangList.vue'
+import LaporanStok from '@/components/laporan/LaporanStok.vue' // diperbaiki di sini
+import RiwayatPembelian from '@/components/transaksi/RiwayatPembelian.vue'
+import Keranjang from '@/components/transaksi/Keranjang.vue'
+import PenggunaList from '@/components/pengguna/PenggunaList.vue'
+import Login from '@/components/Login.vue'
+import Logout from '@/components/Logout.vue'
+import Profil from '@/components/Profil.vue'
 
 const routes = [
   {

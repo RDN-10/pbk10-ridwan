@@ -23,7 +23,9 @@
             <td>{{ item.quantity }}</td>
             <td>{{ formatRupiah(item.harga) }}</td>
             <td>{{ formatRupiah(item.harga * item.quantity) }}</td>
-            <td><button class="hapus-btn" @click="hapusItem(item.id)">Hapus</button></td>
+            <td>
+              <button class="hapus-btn" @click="hapusItem(item.id)">Hapus</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -72,11 +74,9 @@ export default {
       localStorage.setItem('cart', JSON.stringify(this.cart))
     },
     async checkout() {
-      const namaPembeli = prompt("Masukkan nama pembeli:")
-      if (!namaPembeli) return
-
+      const namaPembeli = "Guest"
       const tanggal = new Date().toISOString().split("T")[0]
-      const API_URL = 'https://gamingstores.glitch.me/riwayat'
+      const API_URL = 'https://gamingstores.glitch.me'
 
       try {
         for (let item of this.cart) {
@@ -97,6 +97,8 @@ export default {
         alert("Checkout berhasil!")
         localStorage.removeItem('cart')
         this.cart = []
+        this.$router.push('/riwayat')
+
       } catch (err) {
         console.error("Checkout gagal:", err.message)
         alert("Checkout gagal, coba lagi.")

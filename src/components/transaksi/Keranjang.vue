@@ -62,42 +62,45 @@ export default {
       this.cart = data ? JSON.parse(data) : []
     },
     formatRupiah(n) {
-      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(n)
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(n)
     },
     hapusItem(id) {
       this.cart = this.cart.filter(item => item.id !== id)
       localStorage.setItem('cart', JSON.stringify(this.cart))
     },
-async checkout() {
-  const namaPembeli = prompt("Masukkan nama pembeli:")
-  if (!namaPembeli) return
+    async checkout() {
+      const namaPembeli = prompt("Masukkan nama pembeli:")
+      if (!namaPembeli) return
 
-  const tanggal = new Date().toISOString().split("T")[0]
+      const tanggal = new Date().toISOString().split("T")[0]
 
-  try {
-    for (let item of this.cart) {
-      await axios.post('/api/riwayat', {
-        tanggal,
-        pembeli: namaPembeli,
-        nama: item.nama,       // ✅ sesuaikan dengan yang dibaca di Riwayat
-        harga: item.harga,     // ✅ tambahkan field harga
-        jumlah: item.quantity,
-        total: item.harga * item.quantity
-      })
+      try {
+        for (let item of this.cart) {
+          await axios.post('/api/riwayat', {
+            tanggal,
+            pembeli: namaPembeli,
+            nama: item.nama,
+            harga: item.harga,
+            jumlah: item.quantity,
+            total: item.harga * item.quantity
+          })
 
-      await axios.patch(`/api/barang/${item.id}`, {
-        stok: item.stok - item.quantity
-      })
+          await axios.patch(`/api/barang/${item.id}`, {
+            stok: item.stok - item.quantity
+          })
+        }
+
+        alert("Checkout berhasil!")
+        localStorage.removeItem('cart')
+        this.cart = []
+      } catch (err) {
+        console.error("Checkout gagal:", err.message)
+        alert("Checkout gagal, coba lagi.")
+      }
     }
-
-    alert("Checkout berhasil!")
-    localStorage.removeItem('cart')
-    this.cart = []
-  } catch (err) {
-    console.error("Checkout gagal:", err.message)
-  }
-}
-
   }
 }
 </script>

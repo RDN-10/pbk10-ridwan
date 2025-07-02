@@ -24,12 +24,10 @@
         <tbody>
           <tr v-for="item in barang" :key="item.id">
             <td><img :src="item.foto" :alt="item.nama" class="foto-barang" /></td>
-            <td>{{ item.nama }}</td>
-            <td>{{ item.kategori }}</td>
+            <td class="nama-barang">{{ item.nama }}</td>
+            <td class="kategori-barang">{{ item.kategori }}</td>
             <td>{{ item.stok }}</td>
-            <td v-if="item.harga">{{ formatRupiah(item.harga) }}</td>
-            <td v-else>Rp 0</td>
-
+            <td>{{ formatRupiah(item.harga) }}</td>
             <td>
               <button class="beli-btn" @click="beliBarang(item)">Beli</button>
             </td>
@@ -39,42 +37,42 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import { onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useBarangStore } from '@/store/barang'; // sesuaikan path
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
-const barangStore = useBarangStore();
-const router = useRouter();
+const barang = ref([])
+const router = useRouter()
 
-// Fetch data saat komponen dimount
-onMounted(() => {
-  barangStore.fetchBarang();
-});
+onMounted(async () => {
+  try {
+    const res = await axios.get('https://gamingstores.glitch.me/barang') // Ganti jika server beda
+    barang.value = res.data
+  } catch (error) {
+    console.error('Gagal mengambil data barang:', error)
+  }
+})
 
-// Ambil data dari store
-const barang = computed(() => barangStore.daftarBarang);
-
-// Format harga ke rupiah
 const formatRupiah = (value) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR'
-  }).format(value);
-};
+  }).format(value)
+}
 
-// Aksi beli barang
 const beliBarang = (item) => {
-  const jumlah = parseInt(prompt('Masukkan jumlah yang ingin dibeli:'), 10);
-  if (isNaN(jumlah) || jumlah <= 0) return alert('Jumlah tidak valid');
-  if (jumlah > item.stok) return alert('Stok tidak mencukupi');
+  const jumlah = parseInt(prompt('Masukkan jumlah yang ingin dibeli:'), 10)
+  if (isNaN(jumlah) || jumlah <= 0) return alert('Jumlah tidak valid')
+  if (jumlah > item.stok) return alert('Stok tidak mencukupi')
 
-  const cartData = localStorage.getItem('cart');
-  let cart = cartData ? JSON.parse(cartData) : [];
+  const cartData = localStorage.getItem('cart')
+  let cart = cartData ? JSON.parse(cartData) : []
 
-  const existing = cart.find(i => i.id === item.id);
+  const existing = cart.find(i => i.id === item.id)
   if (existing) {
-    existing.quantity += jumlah;
+    existing.quantity += jumlah
   } else {
     cart.push({
       id: item.id,
@@ -84,22 +82,21 @@ const beliBarang = (item) => {
       stok: item.stok,
       foto: item.foto,
       quantity: jumlah
-    });
+    })
   }
 
-  localStorage.setItem('cart', JSON.stringify(cart));
-  alert('Barang dimasukkan ke keranjang!');
-  router.push('/keranjang');
-};
+  localStorage.setItem('cart', JSON.stringify(cart))
+  alert('Barang dimasukkan ke keranjang!')
+  router.push('/keranjang')
+}
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
 
 .barang-wrapper {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(135deg, #1a1a2e, #16213e);
   padding: 60px 20px;
   overflow: hidden;
@@ -166,6 +163,7 @@ h2 {
   font-family: 'Orbitron', sans-serif;
   font-size: 2.5rem;
   margin-bottom: 10px;
+  text-shadow: 0 0 6px #00ffff;
 }
 
 p {
@@ -191,6 +189,20 @@ p {
   padding: 12px 15px;
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
+}
+
+.nama-barang {
+  color: #00ffff;
+  font-weight: bold;
+  text-shadow: 0 0 4px #00ffff, 0 0 10px rgba(0, 255, 255, 0.6);
+  text-transform: capitalize;
+}
+
+.kategori-barang {
+  color: #ffc107;
+  font-style: italic;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .foto-barang {

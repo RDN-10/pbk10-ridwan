@@ -35,31 +35,42 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
-import { usePenjualanStore } from '@/store/penjualan'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-const penjualanStore = usePenjualanStore()
+const riwayat = ref([])
 
 onMounted(() => {
-  penjualanStore.fetchPenjualan()
+  fetchRiwayat()
 })
 
-const riwayat = computed(() => penjualanStore.daftarPenjualan)
-
-function hapusRiwayat(id) {
-  if (confirm('Yakin ingin menghapus riwayat ini?')) {
-    penjualanStore.hapusPenjualan(id)
+const fetchRiwayat = async () => {
+  try {
+    const res = await axios.get('https://gamingstores.glitch.me/riwayat') // Ganti sesuai server
+    riwayat.value = res.data
+  } catch (err) {
+    console.error('Gagal mengambil data riwayat:', err.message)
   }
 }
 
-function formatRupiah(value) {
+const hapusRiwayat = async (id) => {
+  if (!confirm('Yakin ingin menghapus riwayat ini?')) return
+  try {
+    await axios.delete(`https://gamingstores.glitch.me/riwayat/${id}`)
+    riwayat.value = riwayat.value.filter(item => item.id !== id)
+    alert('Riwayat berhasil dihapus.')
+  } catch (err) {
+    console.error('Gagal menghapus riwayat:', err.message)
+  }
+}
+
+const formatRupiah = (value) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR'
   }).format(value)
 }
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
@@ -159,5 +170,4 @@ p {
 .hapus-btn:hover {
   background-color: #ff1a1a;
 }
-
 </style>

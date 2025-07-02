@@ -1,37 +1,34 @@
-<script>
-import axios from 'axios'
+<template>
+  <div class="riwayat-wrapper">
+    <div class="glow-overlay"></div>
+    <div class="riwayat-container">
+      <h2>Riwayat Pembelian</h2>
 
-export default {
-  name: 'RiwayatPembelian',
-  data() {
-    return {
-      riwayat: []
-    }
-  },
-  mounted() {
-    this.ambilRiwayat()
-  },
-  methods: {
-    async ambilRiwayat() {
-      try {
-        const res = await axios.get('/api/riwayat')
-        this.riwayat = res.data
-      } catch (err) {
-        console.error("Gagal mengambil riwayat:", err.message)
-      }
-    },
-    formatHarga(value) {
-      return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR'
-      }).format(value)
-    },
-    formatTanggal(tgl) {
-      return new Date(tgl).toLocaleString('id-ID')
-    }
-  }
-}
-</script>
+      <table class="riwayat-table" v-if="riwayat.length > 0">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Barang</th>
+            <th>Harga</th>
+            <th>Jumlah</th>
+            <th>Tanggal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in riwayat" :key="item.id">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.nama }}</td>
+            <td>{{ formatHarga(item.harga) }}</td>
+            <td>{{ item.jumlah }}</td>
+            <td>{{ formatTanggal(item.tanggal) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p v-else>Tidak ada riwayat pembelian tersedia.</p>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');

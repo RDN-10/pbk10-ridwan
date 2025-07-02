@@ -27,7 +27,9 @@
             <td>{{ item.nama }}</td>
             <td>{{ item.kategori }}</td>
             <td>{{ item.stok }}</td>
-            <td>{{ formatHarga(item.harga) }}</td>
+            <td v-if="item.harga">{{ formatRupiah(item.harga) }}</td>
+            <td v-else>Rp 0</td>
+
             <td>
               <button class="beli-btn" @click="beliBarang(item)">Beli</button>
             </td>

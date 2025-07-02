@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Import komponen halaman
 import Dashboard from '../components/Dashboard.vue'
 import BarangList from '../components/barang/BarangList.vue'
-import LaporanStok from '../components/Laporan/LaporanStok.vue' // pastikan path ini benar
+import LaporanStok from '../components/Laporan/LaporanStok.vue' // ✅ betul
 import RiwayatPembelian from '../components/transaksi/RiwayatPembelian.vue'
 import Keranjang from '../components/transaksi/Keranjang.vue'
 import PenggunaList from '../components/pengguna/PenggunaList.vue'

@@ -4,7 +4,7 @@
       "id": "1",
       "nama": " Play Station 5",
       "kategori": "Konsol",
-      "stok": 10,
+      "stok": 9,
       "harga": 8500000,
       "foto": "https://s.yimg.com/ny/api/res/1.2/KaQUdTtgQCjc6QjleBc_RQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04Njc-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/7c9dc7a0-24f3-11eb-aed4-9f1ba3e2dec3"
     },
@@ -26,11 +26,18 @@
     }
   ],
   "riwayat": [
-   
     {
       "id": "de1d",
       "tanggal": "2025-07-02",
       "pembeli": "RIdwan",
+      "barang": " Play Station 5",
+      "jumlah": 1,
+      "total": 8500000
+    },
+    {
+      "id": "29e9",
+      "tanggal": "2025-07-02",
+      "pembeli": "aidil",
       "barang": " Play Station 5",
       "jumlah": 1,
       "total": 8500000

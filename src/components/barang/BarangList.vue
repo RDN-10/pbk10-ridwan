@@ -54,7 +54,6 @@ export default {
   methods: {
     async fetchBarang() {
       try {
-        // ✅ GANTI localhost:3000 dengan proxy Netlify
         const res = await axios.get('/api/barang');
         this.barang = res.data;
       } catch (error) {

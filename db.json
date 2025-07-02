@@ -2,11 +2,11 @@
   "barang": [
     {
       "id": "1",
-      "nama": " Play Station 5",
+      "nama": "Play Station 5",
       "kategori": "Konsol",
       "stok": 9,
       "harga": 8500000,
-      "foto": "https://s.yimg.com/ny/api/res/1.2/KaQUdTtgQCjc6QjleBc_RQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04Njc-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/7c9dc7a0-24f3-11eb-aed4-9f1ba3e2dec3"
+      "foto": "https://s.yimg.com/..."
     },
     {
       "id": "2",
@@ -14,7 +14,7 @@
       "kategori": "Aksesoris",
       "stok": 30,
       "harga": 1500000,
-      "foto": "https://tse2.mm.bing.net/th/id/OIP.lofRomZ9MS3tNmg9lC52EgHaD4?pid=Api&P=0&h=220"
+      "foto": "https://tse2.mm.bing.net/..."
     },
     {
       "id": "3",
@@ -22,25 +22,8 @@
       "kategori": "Peripheral",
       "stok": 18,
       "harga": 1200000,
-      "foto": "https://cdn.shopify.com/s/files/1/0059/0630/1017/t/5/assets/keychronv1custommechanicalkeyboard23-1657706139818.jpg?v=1657706159"
+      "foto": "https://cdn.shopify.com/..."
     }
   ],
-  "riwayat": [
-    {
-      "id": "de1d",
-      "tanggal": "2025-07-02",
-      "pembeli": "RIdwan",
-      "barang": " Play Station 5",
-      "jumlah": 1,
-      "total": 8500000
-    },
-    {
-      "id": "29e9",
-      "tanggal": "2025-07-02",
-      "pembeli": "aidil",
-      "barang": " Play Station 5",
-      "jumlah": 1,
-      "total": 8500000
-    }
-  ]
+  "riwayat": []
 }

@@ -1,87 +1,71 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
-import Login from '@/components/Login.vue';
-import Dashboard from '@/components/Dashboard.vue';
-
-import BarangList from '@/components/barang/BarangList.vue';
-
-import LaporanStok from '@/components/laporan/LaporanStok.vue';
-
-import PenggunaList from '@/components/pengguna/PenggunaList.vue';
-
-import Profil from '@/components/Profil.vue';
-import Logout from '@/components/Logout.vue';
+// Import komponen halaman
+import Dashboard from '@/components/Dashboard.vue'
+import BarangList from '@/components/barang/BarangList.vue'
+import Laporanstok from '@/components/laporan/Laporanstok.vue'
+import RiwayatPembelian from '@/components/transaksi/RiwayatPembelian.vue'
+import Keranjang from '@/components/transaksi/Keranjang.vue'
+import PenggunaList from '@/components/pengguna/PenggunaList.vue'
+import Login from '@/components/Login.vue'
+import Logout from '@/components/Logout.vue'
+import Profil from '@/components/Profil.vue'
 
 const routes = [
-  { path: '/', redirect: '/login' },
-
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-    meta: { requiresAuth: false },
+    path: '/',
+    redirect: '/dashboard' // Redirect root ke dashboard
   },
-
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: Logout,
-  },
-
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard,
-    meta: { requiresAuth: true },
+    component: Dashboard
   },
-
   {
     path: '/barang',
-    name: 'Barang',
-    component: BarangList,
-    meta: { requiresAuth: true },
+    name: 'BarangList',
+    component: BarangList
   },
-
   {
-    path: '/laporan',
-    name: 'Laporan',
-    component: LaporanStok,
-    meta: { requiresAuth: true },
+    path: '/laporan-stok',
+    name: 'Laporanstok',
+    component: Laporanstok
   },
-
+  {
+    path: '/riwayat',
+    name: 'RiwayatPembelian',
+    component: RiwayatPembelian
+  },
+  {
+    path: '/keranjang',
+    name: 'Keranjang',
+    component: Keranjang
+  },
   {
     path: '/pengguna',
     name: 'PenggunaList',
-    component: PenggunaList,
-    meta: { requiresAuth: true },
+    component: PenggunaList
   },
-
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
+  },
   {
     path: '/profil',
     name: 'Profil',
-    component: Profil,
-    meta: { requiresAuth: true },
-  },
-];
+    component: Profil
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
-// Navigation guard global
-router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-
-  if (to.meta.requiresAuth && !isLoggedIn) {
-    // Jika route butuh autentikasi tapi belum login, redirect ke login
-    next({ name: 'Login' });
-  } else if ((to.name === 'Login' || to.name === 'Logout') && isLoggedIn) {
-    // Jika sudah login tapi ke halaman login/logout, redirect ke dashboard
-    next({ name: 'Dashboard' });
-  } else {
-    next();
-  }
-});
-
-export default router;
+export default router

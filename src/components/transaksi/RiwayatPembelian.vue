@@ -1,33 +1,3 @@
-<template>
-  <div class="riwayat-wrapper">
-    <div class="glow-overlay"></div>
-    <div class="riwayat-container">
-      <h2>Riwayat Pembelian</h2>
-      <table class="riwayat-table" v-if="riwayat.length > 0">
-        <thead>
-          <tr>
-            <th>Pembeli</th>
-            <th>Barang</th>
-            <th>Jumlah</th>
-            <th>Total</th>
-            <th>Tanggal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in riwayat" :key="item.id">
-            <td>{{ item.pembeli }}</td>
-            <td>{{ item.barang }}</td>
-            <td>{{ item.jumlah }}</td>
-            <td>{{ formatHarga(item.total) }}</td>
-            <td>{{ formatTanggal(item.tanggal) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-else>Tidak ada data riwayat pembelian.</p>
-    </div>
-  </div>
-</template>
-
 <script>
 import axios from 'axios'
 
@@ -43,8 +13,12 @@ export default {
   },
   methods: {
     async ambilRiwayat() {
-      const res = await axios.get('http://localhost:3000/riwayat')
-      this.riwayat = res.data
+      try {
+        const res = await axios.get('/api/riwayat')
+        this.riwayat = res.data
+      } catch (err) {
+        console.error("Gagal mengambil riwayat:", err.message)
+      }
     },
     formatHarga(value) {
       return new Intl.NumberFormat('id-ID', {

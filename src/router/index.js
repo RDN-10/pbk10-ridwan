@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Import komponen halaman
 import Dashboard from './components/Dashboard.vue'
 import BarangList from './components/barang/BarangList.vue'
-import Laporanstok from './components/laporan/Laporanstok.vue'
+import LaporanStok from './components/laporan/LaporanStok.vue' // diperbaiki di sini
 import RiwayatPembelian from './components/transaksi/RiwayatPembelian.vue'
 import Keranjang from './components/transaksi/Keranjang.vue'
 import PenggunaList from './components/pengguna/PenggunaList.vue'
@@ -28,8 +28,8 @@ const routes = [
   },
   {
     path: '/laporan-stok',
-    name: 'Laporanstok',
-    component: LaporanStok
+    name: 'LaporanStok',
+    component: LaporanStok // diperbaiki di sini
   },
   {
     path: '/riwayat',

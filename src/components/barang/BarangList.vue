@@ -39,65 +39,60 @@
     </div>
   </div>
 </template>
+<script setup>
+import { onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useBarangStore } from '@/store/barang'; // sesuaikan path
 
-<script>
-import axios from 'axios';
+const barangStore = useBarangStore();
+const router = useRouter();
 
-export default {
-  name: 'BarangList',
-  data() {
-    return {
-      barang: []
-    };
-  },
-  mounted() {
-    this.fetchBarang();
-  },
-  methods: {
-    async fetchBarang() {
-      try {
-        const res = await axios.get('/api/barang');
-        this.barang = res.data;
-      } catch (error) {
-        console.error('Gagal mengambil data barang:', error.message);
-      }
-    },
-    formatHarga(value) {
-      return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR'
-      }).format(value);
-    },
-    beliBarang(item) {
-      const jumlah = parseInt(prompt('Masukkan jumlah yang ingin dibeli:'), 10);
-      if (isNaN(jumlah) || jumlah <= 0) return alert('Jumlah tidak valid');
-      if (jumlah > item.stok) return alert('Stok tidak mencukupi');
+// Fetch data saat komponen dimount
+onMounted(() => {
+  barangStore.fetchBarang();
+});
 
-      const cartData = localStorage.getItem('cart');
-      let cart = cartData ? JSON.parse(cartData) : [];
+// Ambil data dari store
+const barang = computed(() => barangStore.daftarBarang);
 
-      const existing = cart.find(i => i.id === item.id);
-      if (existing) {
-        existing.quantity += jumlah;
-      } else {
-        cart.push({
-          id: item.id,
-          nama: item.nama,
-          kategori: item.kategori,
-          harga: item.harga,
-          stok: item.stok,
-          foto: item.foto,
-          quantity: jumlah
-        });
-      }
+// Format harga ke rupiah
+const formatRupiah = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(value);
+};
 
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Barang dimasukkan ke keranjang!');
-      this.$router.push('/keranjang');
-    }
+// Aksi beli barang
+const beliBarang = (item) => {
+  const jumlah = parseInt(prompt('Masukkan jumlah yang ingin dibeli:'), 10);
+  if (isNaN(jumlah) || jumlah <= 0) return alert('Jumlah tidak valid');
+  if (jumlah > item.stok) return alert('Stok tidak mencukupi');
+
+  const cartData = localStorage.getItem('cart');
+  let cart = cartData ? JSON.parse(cartData) : [];
+
+  const existing = cart.find(i => i.id === item.id);
+  if (existing) {
+    existing.quantity += jumlah;
+  } else {
+    cart.push({
+      id: item.id,
+      nama: item.nama,
+      kategori: item.kategori,
+      harga: item.harga,
+      stok: item.stok,
+      foto: item.foto,
+      quantity: jumlah
+    });
   }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert('Barang dimasukkan ke keranjang!');
+  router.push('/keranjang');
 };
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');

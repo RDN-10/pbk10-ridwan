@@ -1,15 +1,15 @@
 {
   "barang": [
     {
-      "id": 1,
+      "id": "1",
       "nama": "Play Station 5",
       "kategori": "Konsol",
-      "stok": 9,
+      "stok": 8,
       "harga": 8500000,
       "foto": "https://s.yimg.com/uu/api/res/1.2/A...jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "nama": "Headset Gaming Razer",
       "kategori": "Aksesoris",
       "stok": 30,
@@ -17,13 +17,39 @@
       "foto": "https://tse2.mm.bing.net/th?id=OIP...jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "nama": "Keyboard Mechanical",
       "kategori": "Peripheral",
       "stok": 18,
       "harga": 1200000,
       "foto": "https://cdn.shopify.com/s/files/...jpg"
+    },
+    {
+      "id": "4",
+      "nama": "Mouse nanta gaming",
+      "kategori": "Peripheral",
+      "stok": 25,
+      "harga": 800000,
+      "foto": "https://tse1.mm.bing.net/th?id=OIP...jpg"
+    },
+    {
+      "id": "5",
+      "nama": "Monitor 24 inch",
+      "kategori": "Monitor",
+      "stok": 12,
+      "harga": 2000000,
+      "foto": "https://tse3.mm.bing.net/th?id=OIP...jpg"
     }
   ],
-  "riwayat": []
+  "riwayat": [
+    {
+      "id": "22e8",
+      "tanggal": "2025-07-02",
+      "pembeli": "2",
+      "nama": " Play Station 5",
+      "harga": 8500000,
+      "jumlah": 2,
+      "total": 17000000
+    }
+  ]
 }

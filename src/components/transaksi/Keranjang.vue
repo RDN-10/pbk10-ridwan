@@ -68,34 +68,36 @@ export default {
       this.cart = this.cart.filter(item => item.id !== id)
       localStorage.setItem('cart', JSON.stringify(this.cart))
     },
-    async checkout() {
-      const namaPembeli = prompt("Masukkan nama pembeli:")
-      if (!namaPembeli) return
+async checkout() {
+  const namaPembeli = prompt("Masukkan nama pembeli:")
+  if (!namaPembeli) return
 
-      const tanggal = new Date().toISOString().split("T")[0]
+  const tanggal = new Date().toISOString().split("T")[0]
 
-      try {
-        for (let item of this.cart) {
-          await axios.post('/api/riwayat', {
-            tanggal,
-            pembeli: namaPembeli,
-            barang: item.nama,
-            jumlah: item.quantity,
-            total: item.harga * item.quantity
-          })
+  try {
+    for (let item of this.cart) {
+      await axios.post('/api/riwayat', {
+        tanggal,
+        pembeli: namaPembeli,
+        nama: item.nama,       // ✅ sesuaikan dengan yang dibaca di Riwayat
+        harga: item.harga,     // ✅ tambahkan field harga
+        jumlah: item.quantity,
+        total: item.harga * item.quantity
+      })
 
-          await axios.patch(`/api/barang/${item.id}`, {
-            stok: item.stok - item.quantity
-          })
-        }
-
-        alert("Checkout berhasil!")
-        localStorage.removeItem('cart')
-        this.cart = []
-      } catch (err) {
-        console.error("Checkout gagal:", err.message)
-      }
+      await axios.patch(`/api/barang/${item.id}`, {
+        stok: item.stok - item.quantity
+      })
     }
+
+    alert("Checkout berhasil!")
+    localStorage.removeItem('cart')
+    this.cart = []
+  } catch (err) {
+    console.error("Checkout gagal:", err.message)
+  }
+}
+
   }
 }
 </script>

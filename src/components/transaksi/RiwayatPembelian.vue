@@ -4,7 +4,7 @@
     <div class="riwayat-container">
       <h2>Riwayat Pembelian</h2>
 
-      <table class="riwayat-table" v-if="riwayat.length > 0">
+      <table class="riwayat-table" v-if="riwayat?.length > 0">
         <thead>
           <tr>
             <th>No</th>
@@ -12,15 +12,19 @@
             <th>Harga</th>
             <th>Jumlah</th>
             <th>Tanggal</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in riwayat" :key="item.id">
+          <tr v-for="(item, index) in riwayat" :key="item.id || index">
             <td>{{ index + 1 }}</td>
             <td>{{ item.nama }}</td>
-            <td>{{ formatHarga(item.harga) }}</td>
+            <td>{{ formatRupiah(item.harga) }}</td>
             <td>{{ item.jumlah }}</td>
-            <td>{{ formatTanggal(item.tanggal) }}</td>
+            <td>{{ item.tanggal }}</td>
+            <td>
+              <button @click="hapusRiwayat(item.id)" class="hapus-btn" aria-label="Hapus riwayat">Hapus</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -29,6 +33,33 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { onMounted, computed } from 'vue'
+import { usePenjualanStore } from '@/store/penjualan'
+
+const penjualanStore = usePenjualanStore()
+
+onMounted(() => {
+  penjualanStore.fetchPenjualan()
+})
+
+const riwayat = computed(() => penjualanStore.daftarPenjualan)
+
+function hapusRiwayat(id) {
+  if (confirm('Yakin ingin menghapus riwayat ini?')) {
+    penjualanStore.hapusPenjualan(id)
+  }
+}
+
+function formatRupiah(value) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(value)
+}
+</script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
@@ -113,4 +144,20 @@ p {
   color: #ccc;
   font-size: 1.1rem;
 }
+
+.hapus-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.hapus-btn:hover {
+  background-color: #ff1a1a;
+}
+
 </style>

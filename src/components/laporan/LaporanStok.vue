@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'Laporanstok',
+  name: 'LaporanStok',
   data() {
     return {
       stokBarang: [

@@ -1,96 +1,176 @@
 <template>
-  <div class="barang-list-container">
-    <h2>Daftar Barang</h2>
-    <p>Menampilkan list semua barang inventaris.</p>
+  <div class="barang-wrapper">
+    <div class="glow-overlay"></div>
+    <div class="floating-icons">
+      <span class="icon">🛒</span>
+      <span class="icon">💻</span>
+      <span class="icon">🕹️</span>
+    </div>
+    <div class="barang-list-container">
+      <h2>Daftar Barang</h2>
+      <p>Menampilkan list semua barang inventaris.</p>
 
-    <table class="barang-table">
-      <thead>
-        <tr>
-          <th>Foto</th>
-          <th>Nama Barang</th>
-          <th>Kategori</th>
-          <th>Stok</th>
-          <th>Harga</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in barang" :key="item.id">
-          <td>
-            <img :src="item.foto" :alt="item.nama" class="foto-barang" />
-          </td>
-          <td>{{ item.nama }}</td>
-          <td>{{ item.kategori }}</td>
-          <td>{{ item.stok }}</td>
-          <td>{{ formatHarga(item.harga) }}</td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="barang-table">
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Nama Barang</th>
+            <th>Kategori</th>
+            <th>Stok</th>
+            <th>Harga</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in barang" :key="item.id">
+            <td><img :src="item.foto" :alt="item.nama" class="foto-barang" /></td>
+            <td class="nama-barang">{{ item.nama }}</td>
+            <td class="kategori-barang">{{ item.kategori }}</td>
+            <td>{{ item.stok }}</td>
+            <td>{{ formatRupiah(item.harga) }}</td>
+            <td>
+              <button class="beli-btn" @click="beliBarang(item)">Beli</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'BarangList',
-  data() {
-    return {
-      barang: [
-        {
-          id: 1,
-          nama: "Konsol PS5",
-          kategori: "Konsol",
-          stok: 15,
-          harga: 8500000,
-          foto: "https://images.unsplash.com/photo-1618498082410-bd2cf5d1b19d?auto=format&fit=crop&w=100&q=80"
-        },
-        {
-          id: 2,
-          nama: "Headset Gaming Razer",
-          kategori: "Aksesoris",
-          stok: 30,
-          harga: 1500000,
-          foto: "https://images.unsplash.com/photo-1606813909022-2648e1cfb61e?auto=format&fit=crop&w=100&q=80"
-        },
-        {
-          id: 3,
-          nama: "Keyboard Mechanical",
-          kategori: "Peripheral",
-          stok: 20,
-          harga: 1200000,
-          foto: "https://images.unsplash.com/photo-1610465299993-9975a282a9b6?auto=format&fit=crop&w=100&q=80"
-        },
-      ]
-    };
-  },
-  methods: {
-    formatHarga(value) {
-      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
-    }
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+
+const barang = ref([])
+const router = useRouter()
+
+onMounted(async () => {
+  try {
+    const res = await axios.get('https://gamingstores.glitch.me/barang') // Ganti jika server beda
+    barang.value = res.data
+  } catch (error) {
+    console.error('Gagal mengambil data barang:', error)
   }
-};
+})
+
+const formatRupiah = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(value)
+}
+
+const beliBarang = (item) => {
+  const jumlah = parseInt(prompt('Masukkan jumlah yang ingin dibeli:'), 10)
+  if (isNaN(jumlah) || jumlah <= 0) return alert('Jumlah tidak valid')
+  if (jumlah > item.stok) return alert('Stok tidak mencukupi')
+
+  const cartData = localStorage.getItem('cart')
+  let cart = cartData ? JSON.parse(cartData) : []
+
+  const existing = cart.find(i => i.id === item.id)
+  if (existing) {
+    existing.quantity += jumlah
+  } else {
+    cart.push({
+      id: item.id,
+      nama: item.nama,
+      kategori: item.kategori,
+      harga: item.harga,
+      stok: item.stok,
+      foto: item.foto,
+      quantity: jumlah
+    })
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart))
+  alert('Barang dimasukkan ke keranjang!')
+  router.push('/keranjang')
+}
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
+
+.barang-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 60px 20px;
+  overflow: hidden;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.glow-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0,255,255,0.08), transparent 70%);
+  animation: pulseGlow 6s infinite alternate;
+  z-index: 0;
+}
+
+@keyframes pulseGlow {
+  0% {
+    background: radial-gradient(circle, rgba(0,255,255,0.12), transparent 70%);
+  }
+  100% {
+    background: radial-gradient(circle, rgba(255,0,255,0.12), transparent 70%);
+  }
+}
+
+.floating-icons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 2;
+}
+
+.icon {
+  font-size: 28px;
+  animation: floatIcon 4s ease-in-out infinite;
+  color: #00ffff;
+  filter: drop-shadow(0 0 6px #00ffff);
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 .barang-list-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  background: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 30px;
 }
 
 h2 {
   text-align: center;
-  color: #2575fc;
-  margin-bottom: 5px;
+  color: #00ffff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 6px #00ffff;
 }
 
 p {
   text-align: center;
   margin-bottom: 25px;
-  color: #555;
+  color: #ccc;
+  font-size: 1.1rem;
 }
 
 .barang-table {
@@ -104,10 +184,25 @@ p {
   color: white;
 }
 
-.barang-table th, .barang-table td {
+.barang-table th,
+.barang-table td {
   padding: 12px 15px;
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
+}
+
+.nama-barang {
+  color: #00ffff;
+  font-weight: bold;
+  text-shadow: 0 0 4px #00ffff, 0 0 10px rgba(0, 255, 255, 0.6);
+  text-transform: capitalize;
+}
+
+.kategori-barang {
+  color: #ffc107;
+  font-style: italic;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .foto-barang {
@@ -119,20 +214,44 @@ p {
 }
 
 .barang-table tbody tr:hover {
-  background-color: #e8f0fe;
+  background-color: rgba(0, 255, 255, 0.05);
   cursor: pointer;
+}
+
+.beli-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.beli-btn:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
   .barang-list-container {
-    padding: 10px;
+    padding: 15px;
   }
-  .barang-table th, .barang-table td {
+
+  .barang-table th,
+  .barang-table td {
     padding: 8px 10px;
   }
+
   .foto-barang {
     width: 60px;
     height: 45px;
+  }
+
+  .beli-btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
   }
 }
 </style>

@@ -1,0 +1,64 @@
+{
+  "barang": [
+    {
+      "id": "1",
+      "nama": "Play Station 5",
+      "kategori": "Konsol",
+      "stok": 6,
+      "harga": 8500000,
+      "foto": "https://gamebrott.com/wp-content/uploads/2024/11/Scalper-PS5-Pro-Merugi-sampai-Dijual-dengan-Harga-Dibawah-Eceran-Header.jpg"
+    },
+    {
+      "id": "2",
+      "nama": "Headset Gaming Razer",
+      "kategori": "Aksesoris",
+      "stok": 30,
+      "harga": 1500000,
+      "foto": "https://images.tokopedia.net/img/cache/700/o3syd0/1997/1/1/0f7846846ab1495e81a18d00e7ddd27c~.jpeg"
+    },
+    {
+      "id": "3",
+      "nama": "Keyboard Mechanical",
+      "kategori": "Peripheral",
+      "stok": 18,
+      "harga": 1200000,
+      "foto": "https://storage-asset.msi.com/global/picture/image/feature/multimeda/keyboard/VIGOR-GK71-SONIC/images/GK71-SONIC-kv.jpg"
+    },
+    {
+      "id": "4",
+      "nama": "Mouse gaming",
+      "kategori": "Peripheral",
+      "stok": 25,
+      "harga": 800000,
+      "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkbbevCeCESbc_NISCSaK1LOkZ9zQNskWcSw&s"
+    },
+    {
+      "id": "5",
+      "nama": "Monitor 24 inch",
+      "kategori": "Monitor",
+      "stok": 12,
+      "harga": 2000000,
+      "foto": "https://cdn.pricebook.co.id/article/6708ccf7d2cb50cb7b666287/6708ccf7d2cb50cb7b666287_1728631896.jpg"
+    }
+  ],
+  "riwayat": [
+    {
+      "id": "d281",
+      "tanggal": "2025-07-02",
+      "pembeli": "1",
+      "nama": "Play Station 5",
+      "harga": 8500000,
+      "jumlah": 1,
+      "total": 8500000
+    },
+    {
+      "id": "188e",
+      "tanggal": "2025-07-02",
+      "pembeli": "2",
+      "nama": "Play Station 5",
+      "harga": 8500000,
+      "jumlah": 1,
+      "total": 8500000
+    }
+  ]
+}
